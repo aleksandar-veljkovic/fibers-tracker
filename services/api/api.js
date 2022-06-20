@@ -5,6 +5,8 @@ const corsMiddleware = require('restify-cors-middleware');
 const BaseRouteHandlers = require('./base-route-handlers');
 const CompanyRouteHandlers = require('./route-handlers/company-route-handlers');
 const DepartmentRouteHandlers = require('./route-handlers/department-route-handlers');
+const NetworkRouteHandlers = require('./route-handlers/network-route-handlers');
+
 
 // Cors middelware parameters
 const cors = corsMiddleware({
@@ -25,6 +27,7 @@ class RestServer {
     this.baseRouteHandlers = new BaseRouteHandlers(ctx);
     this.companyRouteHandlers = new CompanyRouteHandlers(ctx);
     this.departmentRouteHandlers = new DepartmentRouteHandlers(ctx);
+    this.networkRouteHandlers = new NetworkRouteHandlers(ctx);
 
     this.unprotectedRoutes = [
       {
@@ -77,6 +80,9 @@ class RestServer {
     this.server.get('/departments/:id', this.departmentRouteHandlers.fetchSingleDepartmentHandler.bind(this.departmentRouteHandlers));
     this.server.put('/departments/:id', this.departmentRouteHandlers.updateDepartmentHandler.bind(this.departmentRouteHandlers));
     this.server.del('/departments/:id', this.departmentRouteHandlers.deleteDepartmentHandler.bind(this.departmentRouteHandlers));
+
+    // Network handlers
+    this.server.get('/network/partners', this.networkRouteHandlers.fetchPartnersHandler.bind(this.networkRouteHandlers));
   }
 
   /**

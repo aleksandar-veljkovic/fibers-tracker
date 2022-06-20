@@ -6,7 +6,7 @@ module.exports = (db) => db.define('Department', {
     allowNull: false,
     primaryKey: true,
   },
-  companyId: {
+  company_id: {
     type: DataTypes.STRING,
     allowNull: false,
   },
