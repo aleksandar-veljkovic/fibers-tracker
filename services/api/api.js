@@ -6,6 +6,7 @@ const BaseRouteHandlers = require('./base-route-handlers');
 const CompanyRouteHandlers = require('./route-handlers/company-route-handlers');
 const DepartmentRouteHandlers = require('./route-handlers/department-route-handlers');
 const NetworkRouteHandlers = require('./route-handlers/network-route-handlers');
+const ExternalRouteHandlers = require('./route-handlers/external-route-handlers');
 
 
 // Cors middelware parameters
@@ -28,6 +29,7 @@ class RestServer {
     this.companyRouteHandlers = new CompanyRouteHandlers(ctx);
     this.departmentRouteHandlers = new DepartmentRouteHandlers(ctx);
     this.networkRouteHandlers = new NetworkRouteHandlers(ctx);
+    this.externalRouteHandlers = new ExternalRouteHandlers(ctx);
 
     this.unprotectedRoutes = [
       {
@@ -83,6 +85,9 @@ class RestServer {
 
     // Network handlers
     this.server.get('/network/partners', this.networkRouteHandlers.fetchPartnersHandler.bind(this.networkRouteHandlers));
+    
+    // External queries
+    this.server.get('/external/query/:itemId', this.externalRouteHandlers.queryHandler.bind(this.externalRouteHandlers));
   }
 
   /**
