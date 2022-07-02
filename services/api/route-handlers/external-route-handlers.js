@@ -12,8 +12,9 @@ class ExternalRouteHandlers extends BaseRouteHandlers {
     queryPartner(prover, nodeApi, itemId) {
         return new Promise((resolve, reject) => {
             axios.get(`${nodeApi}/network/query/${itemId}`).then(res => {
-                resolve({ prover, shipmentData: res.data.data });
-            }).catch(err => { console.log(err); resolve({ prover, shipmentData: null })});
+                console.log(res.data.data);
+                resolve({ prover, shipmentData: [...res.data.data] });
+            }).catch(err => { resolve({ prover, shipmentData: null })});
         })
     }
 
@@ -43,7 +44,7 @@ class ExternalRouteHandlers extends BaseRouteHandlers {
             }
         }
 
-        const responses = (await Promise.all(requests));//.filter(el => el.shipmentData != null);
+        const responses = (await Promise.all(requests)).filter(el => el.shipmentData != null);
         this.sendResponse(res, 200, 'Sucess', responses);
     }
 };
